@@ -65,10 +65,7 @@ app.post('/add-transaction', (req, res) => {
     res.status(200).json({ message: 'Transaction added successfully', id: this.lastID });
   });
 });
-// Test route
-app.get("/", (req, res) => {
-  res.send("SQLite Finance Tracker API is running");
-});
+
 app.get('/transactions/:user_id', (req, res) => {
   const { user_id } = req.params;
 
@@ -85,6 +82,39 @@ app.get('/transactions/:user_id', (req, res) => {
     }
 
     res.status(200).json(rows);
+  });
+});
+
+app.get('/limits/:userId', (req, res) => {
+  const userId = req.params.userId;
+  db.all(`SELECT category, limit_amount FROM limits WHERE user_id = ?`, [userId], (err, rows) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Failed to fetch limits' });
+    }
+    res.json(rows);
+  });
+});
+
+app.post('/set-limit', (req, res) => {
+  const { user_id, category, limit_amount } = req.body;
+
+  if (!user_id || !category || limit_amount == null) {
+    return res.status(400).json({ error: 'Missing fields' });
+  }
+
+  const query = `
+    INSERT INTO limits (user_id, category, limit_amount)
+    VALUES (?, ?, ?)
+    ON CONFLICT(user_id, category) DO UPDATE SET limit_amount = excluded.limit_amount
+  `;
+
+  db.run(query, [user_id, category, limit_amount], function(err) {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Failed to set limit' });
+    }
+    res.json({ message: 'Limit set successfully' });
   });
 });
 

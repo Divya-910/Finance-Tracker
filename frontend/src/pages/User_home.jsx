@@ -42,7 +42,9 @@ const UserHome = () => {
   const handleAddTransaction = () => {
     navigate('/add_transaction');
   };
-
+  const handleSetLimits= () => {
+    navigate('/limits');
+  };
   return (
     <div style={{ padding: '2rem' }}>
       <h2>Welcome, {user?.displayName || user?.email}</h2>
@@ -52,7 +54,12 @@ const UserHome = () => {
       >
         ➕ Add Transaction
       </button>
-
+    <button
+        onClick={handleSetLimits}
+        style={{ padding: '10px 20px', marginBottom: '20px', cursor: 'pointer' }}
+      >
+        ➕ Set Limits
+      </button>
       <h3>Your Transactions:</h3>
       {transactions.length === 0 ? (
         <p>No transactions found.</p>

@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 const categories = [
   'Rent', 'Food', 'Travel', 'Shopping', 'Utilities',
-  'Entertainment', 'Health', 'Education', 'Savings', 'Other'
+  'Entertainment', 'Health', 'Education', 'Groceries', 'Other'
 ];
+
 
 const AddTransaction = () => {
   const [category, setCategory] = useState('');
