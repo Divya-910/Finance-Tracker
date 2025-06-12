@@ -1,0 +1,149 @@
+.user-home {
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.buttons {
+  margin-bottom: 2rem;
+}
+
+.buttons button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.categories-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.category-card {
+  background-color: #f0f4ff;
+  border: 2px solid #a1c6ff;
+  border-radius: 14px;
+  padding: 1.8rem;
+  width: 260px;
+  height:150px;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.category-card:hover {
+  transform: scale(1.04);
+  background-color: #e7f0ff;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.category-header .icon {
+  margin-right: 12px;
+  font-size: 28px;
+}
+
+.category-total {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.transaction-list {
+  margin-top: 12px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-top: 8px;
+  border-top: 1px solid #ccc;
+}
+
+.transaction-item {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  padding: 8px;
+  margin: 6px 0;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.transaction-item:hover {
+  background-color: #eef6ff;
+}
+
+.no-transactions {
+  font-size: 14px;
+  color: #888;
+  margin-top: 6px;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 320px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.modal h3 {
+  margin-top: 0;
+}
+
+.modal button {
+  margin-top: 1.2rem;
+  padding: 10px 16px;
+  background-color: #357edd;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal button:hover {
+  background-color: #2a64b9;
+}
+/* Existing styles retained... add/modify the following */
+
+.modal.wide {
+  width: 400px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.modal-transaction-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.modal-transaction-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-transaction-item:hover {
+  background-color: #f5f9ff;
+}

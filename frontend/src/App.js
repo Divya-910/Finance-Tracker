@@ -7,6 +7,8 @@ import Signup from './pages/Signup';
 import User_Home from './pages/User_home';
 import AddTransaction from './pages/AddTransaction';
 import Limits from './pages/Limits';
+import FilterTransactions from './pages/FilterTransactions';
+
 function App() {
   return (
     <Router>
@@ -17,6 +19,8 @@ function App() {
          <Route path="/user_home" element={<User_Home />} />
           <Route path="/add_transaction" element={<AddTransaction />} />
           <Route path="/limits" element={<Limits />} />
+         <Route path="/filter_transactions" element={<FilterTransactions />} />
+
       </Routes>
     </Router>
   );

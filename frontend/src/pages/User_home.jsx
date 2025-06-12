@@ -1,78 +1,161 @@
-// src/pages/UserHome.js
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
 import axios from 'axios';
+import './UserHome.css';
+import Navbar from './Navbar';
+
+const categoryIcons = {
+  Rent: '🏠',
+  Food: '🍽️',
+  Groceries: '🛒',
+  Travel: '✈️',
+  Shopping: '🛍️',
+  Utilities: '💡',
+  Entertainment: '🎮',
+  Health: '💊',
+  Education: '📚',
+  Other: '🔖',
+};
+
+const categories = Object.keys(categoryIcons);
 
 const UserHome = () => {
   const navigate = useNavigate();
   const [transactions, setTransactions] = useState([]);
   const [user, setUser] = useState(null);
+  const [categoryTotals, setCategoryTotals] = useState({});
+  const [categoryModal, setCategoryModal] = useState(null);
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [limits, setLimits] = useState({});
 
-  // Track current user from Firebase
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
       if (firebaseUser && firebaseUser.emailVerified) {
         setUser(firebaseUser);
       } else {
-        navigate('/login'); // Redirect to login if not verified
+        navigate('/login');
       }
     });
-
     return () => unsubscribe();
   }, [navigate]);
 
-  // Fetch transactions
   useEffect(() => {
     if (!user) return;
 
-    const fetchTransactions = async () => {
+    const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5002/transactions/${user.uid}`);
-        setTransactions(res.data);
+        // Get transactions
+        const txRes = await axios.get(`http://localhost:5002/transactions/${user.uid}`);
+        const currentMonth = new Date().toISOString().slice(0, 7);
+        const filtered = txRes.data.filter(tx => tx.date.startsWith(currentMonth));
+        setTransactions(filtered);
+
+        const totals = {};
+        categories.forEach(cat => (totals[cat] = 0));
+        filtered.forEach(tx => {
+          totals[tx.category] += tx.amount;
+        });
+        setCategoryTotals(totals);
+
+        // Get limits
+        const limitsRes = await axios.get(`http://localhost:5002/limits/${user.uid}`);
+        const limitsMap = {};
+        limitsRes.data.forEach(({ category, limit_amount }) => {
+          limitsMap[category] = limit_amount;
+        });
+        setLimits(limitsMap);
+
       } catch (err) {
-        console.error("Failed to fetch transactions:", err);
+        console.error("Error fetching data:", err);
       }
     };
 
-    fetchTransactions();
+    fetchData();
   }, [user]);
 
-  const handleAddTransaction = () => {
-    navigate('/add_transaction');
-  };
-  const handleSetLimits= () => {
-    navigate('/limits');
-  };
+  const handleAddTransaction = () => navigate('/add_transaction');
+  const handleSetLimits = () => navigate('/limits');
+  const handlefilterTransactions = ()=> navigate('/filter_transactions');
+  const grouped = transactions.reduce((acc, tx) => {
+    acc[tx.category] = acc[tx.category] || [];
+    acc[tx.category].push(tx);
+    return acc;
+  }, {});
+
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Welcome, {user?.displayName || user?.email}</h2>
-      <button
-        onClick={handleAddTransaction}
-        style={{ padding: '10px 20px', marginBottom: '20px', cursor: 'pointer' }}
-      >
-        ➕ Add Transaction
-      </button>
-    <button
-        onClick={handleSetLimits}
-        style={{ padding: '10px 20px', marginBottom: '20px', cursor: 'pointer' }}
-      >
-        ➕ Set Limits
-      </button>
-      <h3>Your Transactions:</h3>
-      {transactions.length === 0 ? (
-        <p>No transactions found.</p>
-      ) : (
-        <ul style={{ listStyleType: 'none', padding: 0 }}>
-          {transactions.map((tx) => (
-            <li key={tx.id} style={{ marginBottom: '10px' }}>
-              <strong>{tx.category}</strong>: ₹{tx.amount} on {tx.date} — {tx.description}
-            </li>
+    <>
+      <Navbar user={auth.currentUser} />
+      <div className="user-home">
+        <h2>Welcome, {user?.displayName || user?.email}</h2>
+        <div className="buttons">
+          <button onClick={handleAddTransaction}>➕ Add Transaction</button>
+           <button onClick={handlefilterTransactions}>📊 Expense Hinstory</button>
+          <button onClick={handleSetLimits}>📊 Set Limits</button>
+        </div>
+
+        <h3>This Month's Spending by Category:</h3>
+        <div className="categories-grid">
+          {categories.map(category => (
+            <div
+              key={category}
+              className="category-card"
+              onClick={() => setCategoryModal({ name: category, transactions: grouped[category] || [] })}
+            >
+              <div className="category-header">
+                <span className="icon">{categoryIcons[category]}</span>
+                <span className="category-name">{category}</span>
+              </div>
+              <div className={`category-total ${limits[category] && categoryTotals[category] > limits[category] ? 'over-limit' : ''}`}>
+                ₹{(categoryTotals[category] || 0).toFixed(2)}
+                {limits[category] !== undefined && (
+                  <span className="limit-amount"> / ₹{limits[category].toFixed(2)}</span>
+                )}
+              </div>
+            </div>
           ))}
-        </ul>
-      )}
-    </div>
+        </div>
+
+        {/* Category Modal */}
+        {categoryModal && (
+          <div className="modal-overlay" onClick={() => setCategoryModal(null)}>
+            <div className="modal wide" onClick={(e) => e.stopPropagation()}>
+              <h3>{categoryIcons[categoryModal.name]} {categoryModal.name} Transactions</h3>
+              {categoryModal.transactions.length === 0 ? (
+                <p>No transactions in this category.</p>
+              ) : (
+                <ul className="modal-transaction-list">
+                  {categoryModal.transactions.map(tx => (
+                    <li
+                      key={tx.id}
+                      onClick={() => setSelectedTransaction(tx)}
+                      className="modal-transaction-item"
+                    >
+                      ₹{tx.amount} — {tx.date}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <button onClick={() => setCategoryModal(null)}>Close</button>
+            </div>
+          </div>
+        )}
+
+        {/* Transaction Detail Modal */}
+        {selectedTransaction && (
+          <div className="modal-overlay" onClick={() => setSelectedTransaction(null)}>
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
+              <h3>Transaction Details</h3>
+              <p><strong>Amount:</strong> ₹{selectedTransaction.amount}</p>
+              <p><strong>Category:</strong> {selectedTransaction.category}</p>
+              <p><strong>Date:</strong> {selectedTransaction.date}</p>
+              <p><strong>Description:</strong> {selectedTransaction.description || "No description"}</p>
+              <button onClick={() => setSelectedTransaction(null)}>Close</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
