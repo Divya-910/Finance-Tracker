@@ -90,7 +90,7 @@ const UserHome = () => {
         <h2>Welcome, {user?.displayName || user?.email}</h2>
         <div className="buttons">
           <button onClick={handleAddTransaction}>➕ Add Transaction</button>
-           <button onClick={handlefilterTransactions}>📊 Expense Hinstory</button>
+           <button onClick={handlefilterTransactions}>📊 Expense History</button>
           <button onClick={handleSetLimits}>📊 Set Limits</button>
         </div>
 

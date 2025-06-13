@@ -1,0 +1,68 @@
+/* src/pages/Signup.css */
+
+.signup-page {
+ background: linear-gradient(135deg, #dbeafe, #fef3c7); 
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* align items to top */
+  padding-top: 10vh;         /* push the card slightly down from top */
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.signup-card {
+  background: #ffffff;
+  padding: 2.5rem 3rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.signup-card h2 {
+  margin-bottom: 1.5rem;
+}
+
+.signup-card input {
+  width: 100%;
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.signup-card button {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  background-color: #84a9ac;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.signup-card button:hover {
+  background-color: #3b6978;
+}
+
+.signup-card p {
+  margin-top: 1rem;
+}
+.back-button {
+  margin-top: 1rem;
+  background-color: transparent;
+  border: none;
+  color: #0066cc;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: color 0.3s;
+}
+
+.back-button:hover {
+  color: #004a99;
+}
