@@ -46,7 +46,7 @@ const UserHome = () => {
 
     const fetchData = async () => {
       try {
-        const txRes = await axios.get(`http://localhost:5002/transactions/${user.uid}`);
+        const txRes = await axios.get(`https://finance-tracker-hvmu.onrender.com/transactions/${user.uid}`);
         const currentMonth = new Date().toISOString().slice(0, 7);
         const filtered = txRes.data.filter(tx => tx.date.startsWith(currentMonth));
         setTransactions(filtered);
@@ -58,7 +58,7 @@ const UserHome = () => {
         });
         setCategoryTotals(totals);
 
-        const limitsRes = await axios.get(`http://localhost:5002/limits/${user.uid}`);
+        const limitsRes = await axios.get(`https://finance-tracker-hvmu.onrender.com/limits/${user.uid}`);
         const limitsMap = {};
         limitsRes.data.forEach(({ category, limit_amount }) => {
           limitsMap[category] = limit_amount;
@@ -82,7 +82,7 @@ const UserHome = () => {
     const confirm = window.confirm("Are you sure you want to delete this transaction?");
     if (!confirm) return;
     try {
-      await axios.delete(`http://localhost:5002/transactions/${selectedTransaction.id}`);
+      await axios.delete(`https://finance-tracker-hvmu.onrender.com/transactions/${selectedTransaction.id}`);
       setTransactions(prev => prev.filter(tx => tx.id !== selectedTransaction.id));
       setSelectedTransaction(null);
       setCategoryModal(null);

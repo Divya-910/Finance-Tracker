@@ -33,7 +33,7 @@ const Limits = () => {
     if (!user) return;
     const fetchLimits = async () => {
       try {
-        const res = await axios.get(`http://localhost:5002/limits/${user.uid}`);
+        const res = await axios.get(`https://finance-tracker-hvmu.onrender.com/limits/${user.uid}`);
         const fetchedLimits = {};
         res.data.forEach(lim => {
           fetchedLimits[lim.category] = lim.limit_amount;
@@ -63,7 +63,7 @@ const Limits = () => {
 
     try {
       const updates = Object.entries(limits).map(([category, limit_amount]) =>
-        axios.post('http://localhost:5002/set-limit', {
+        axios.post('https://finance-tracker-hvmu.onrender.com/set-limit', {
           user_id: user.uid,
           category,
           limit_amount: parseFloat(limit_amount)

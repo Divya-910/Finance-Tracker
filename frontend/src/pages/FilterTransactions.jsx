@@ -37,7 +37,7 @@ const FilterTransactions = () => {
 
   useEffect(() => {
     if (!user) return;
-    axios.get(`http://localhost:5002/transactions/${user.uid}`)
+    axios.get(`https://finance-tracker-hvmu.onrender.com/transactions/${user.uid}`)
       .then(res => setTransactions(res.data))
       .catch(console.error);
   }, [user]);

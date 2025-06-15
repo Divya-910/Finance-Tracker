@@ -33,7 +33,7 @@ const EditTransaction = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5002/transactions/${transaction.id}`, form);
+      await axios.put(`https://finance-tracker-hvmu.onrender.com/transactions/${transaction.id}`, form);
       navigate('/user_home', {
         state: { reopenCategory: categoryName },
       });
@@ -47,7 +47,7 @@ const EditTransaction = () => {
     if (!confirm) return;
 
     try {
-      await axios.delete(`http://localhost:5002/transactions/${transaction.id}`);
+      await axios.delete(`https://finance-tracker-hvmu.onrender.com/transactions/${transaction.id}`);
       navigate('/user_home', {
         state: { reopenCategory: categoryName },
       });

@@ -35,7 +35,7 @@ const AddTransaction = () => {
     };
 
     try {
-      await axios.post('http://localhost:5002/add-transaction', transaction);
+      await axios.post('https://finance-tracker-hvmu.onrender.com/add-transaction', transaction);
       alert('Transaction added successfully!');
       setCategory('');
       setAmount('');
