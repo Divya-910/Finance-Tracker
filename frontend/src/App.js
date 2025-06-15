@@ -9,6 +9,7 @@ import AddTransaction from './pages/AddTransaction';
 import Limits from './pages/Limits';
 import FilterTransactions from './pages/FilterTransactions';
 import About from './pages/About';
+import EditTransaction from './pages/EditTransaction';
 function App() {
   return (
     <Router>
@@ -21,6 +22,7 @@ function App() {
           <Route path="/limits" element={<Limits />} />
          <Route path="/filter_transactions" element={<FilterTransactions />} />
          <Route path="/about" element={<About/>} />
+         <Route path = "/edit_transaction" element = {<EditTransaction/>}/>
       </Routes>
     </Router>
   );

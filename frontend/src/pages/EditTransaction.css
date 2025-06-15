@@ -1,0 +1,67 @@
+.edit-transaction-container {
+  padding: 2rem;
+  max-width: 500px;
+  margin: 60px auto;
+  background-color: #f9fbff;
+  border: 2px solid #c4dbff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.edit-transaction-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.edit-transaction-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-transaction-container label {
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+.edit-transaction-container input,
+.edit-transaction-container select,
+.edit-transaction-container textarea {
+  padding: 10px;
+  border: 1.5px solid #aacbff;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  background-color: white;
+}
+
+.edit-transaction-container textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.edit-transaction-container button {
+  margin-top: 1.5rem;
+  padding: 12px;
+  background-color: #3478f6;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+
+
+.edit-transaction-container .delete-btn {
+  background-color: #f24444;
+  margin-top: 0.8rem;
+}
+
+.edit-transaction-container .delete-btn:hover {
+  background-color: #d63333;
+}

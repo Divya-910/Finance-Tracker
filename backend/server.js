@@ -118,6 +118,49 @@ app.post('/set-limit', (req, res) => {
   });
 });
 
+app.put('/transactions/:id', (req, res) => {
+  const { id } = req.params;
+  const { amount, category, date, description } = req.body;
+
+  if (!amount || !category || !date) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  const query = `
+    UPDATE expenses
+    SET amount = ?, category = ?, date = ?, description = ?
+    WHERE id = ?
+  `;
+
+  db.run(query, [amount, category, date, description, id], function(err) {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Failed to update transaction' });
+    }
+    if (this.changes === 0) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+    res.json({ message: 'Transaction updated successfully' });
+  });
+});
+app.delete('/transactions/:id', (req, res) => {
+  const { id } = req.params;
+
+  const query = `DELETE FROM expenses WHERE id = ?`;
+
+  db.run(query, [id], function(err) {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Failed to delete transaction' });
+    }
+    if (this.changes === 0) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+    res.json({ message: 'Transaction deleted successfully' });
+  });
+});
+
+
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });

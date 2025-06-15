@@ -1,0 +1,97 @@
+.limits-container {
+  min-height: 100vh;
+  background: linear-gradient(to right, #e0c3fc, #8ec5fc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.limits-card {
+  background: #ffffffee;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  padding: 2.5rem 3rem;
+  width: 90%;
+  max-width: 550px;
+}
+
+.limits-card h2 {
+  font-size: 2rem;
+  margin-bottom: 1.8rem;
+  text-align: center;
+  color: #333;
+}
+
+.limit-input-group {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem;
+  border-radius: 12px;
+  background: #f4f4f9;
+  transition: background 0.3s;
+}
+
+.limit-input-group:hover {
+  background: #ebebf7;
+}
+
+.category-icon {
+  font-size: 1.4rem;
+  color: #6a6aff;
+  width: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.limit-input-group label {
+  font-size: 1.1rem;
+  color: #444;
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.limit-input-group input {
+  width: 100px;
+  padding: 6px 10px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s;
+  margin-left: 12px;
+}
+
+.limit-input-group input:focus {
+  border-color: #6a6aff;
+  outline: none;
+}
+
+.limits-card button {
+  background-color: #6a6aff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.limits-card button:hover {
+  background-color: #514dff;
+}
+
+.error-message {
+  margin-top: 1rem;
+  color: #ff4444;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: center;
+}

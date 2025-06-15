@@ -1,0 +1,103 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: url('../assets/add.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.add-transaction-container {
+  max-width: 420px;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f4f7f9, #eef3ff);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.add-transaction-container h2 {
+  margin-bottom: 1.8rem;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.add-transaction-form select,
+.add-transaction-form input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: 0.25s ease;
+  background-color: white;
+}
+
+.add-transaction-form select:hover,
+.add-transaction-form input:hover {
+  border-color: #7aa9ff;
+  box-shadow: 0 0 6px rgba(122, 169, 255, 0.4);
+}
+
+.add-transaction-form select:focus,
+.add-transaction-form input:focus {
+  border-color: #5c8eff;
+  outline: none;
+  box-shadow: 0 0 8px rgba(92, 142, 255, 0.6);
+}
+
+.add-transaction-form input[type="date"] {
+  cursor: pointer;
+}
+
+.add-transaction-form button {
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(to right, #4a90e2, #007bff);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.add-transaction-form button:hover {
+  background: linear-gradient(to right, #0062cc, #0056b3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+.error-message {
+  color: #d93025;
+  margin-top: 1rem;
+  font-weight: 500;
+  animation: shake 0.3s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0px); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+  100% { transform: translateX(0px); }
+}
+input:focus, select:focus {
+  border-color: #4A90E2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+  outline: none;
+}
+button:hover {
+  transform: scale(1.02);
+  background-color: #0070e0;
+}
