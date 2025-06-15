@@ -1,5 +1,3 @@
-// src/pages/UserHome.js
-
 import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { auth } from '../firebase';
@@ -122,24 +120,27 @@ const UserHome = () => {
 
         <h3>This Month's Spending by Category:</h3>
         <div className="categories-grid">
-          {categories.map(category => (
-            <div
-              key={category}
-              className="category-card"
-              onClick={() => setCategoryModal({ name: category, transactions: grouped[category] || [] })}
-            >
-              <div className="category-header">
-                <span className="icon">{categoryIcons[category]}</span>
-                <span className="category-name" style={{ color: 'black' }}>{category}</span>
+          {categories
+            .slice()
+            .sort((a, b) => (categoryTotals[b] || 0) - (categoryTotals[a] || 0))
+            .map(category => (
+              <div
+                key={category}
+                className="category-card"
+                onClick={() => setCategoryModal({ name: category, transactions: grouped[category] || [] })}
+              >
+                <div className="category-header">
+                  <span className="icon">{categoryIcons[category]}</span>
+                  <span className="category-name" style={{ color: 'black' }}>{category}</span>
+                </div>
+                <div className={`category-total ${limits[category] && categoryTotals[category] > limits[category] ? 'over-limit' : ''}`}>
+                  ₹{(categoryTotals[category] || 0).toFixed(2)}
+                  {limits[category] !== undefined && (
+                    <span className="limit-amount"> / ₹{limits[category].toFixed(2)}</span>
+                  )}
+                </div>
               </div>
-              <div className={`category-total ${limits[category] && categoryTotals[category] > limits[category] ? 'over-limit' : ''}`}>
-                ₹{(categoryTotals[category] || 0).toFixed(2)}
-                {limits[category] !== undefined && (
-                  <span className="limit-amount"> / ₹{limits[category].toFixed(2)}</span>
-                )}
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
 
         {/* Category Modal */}

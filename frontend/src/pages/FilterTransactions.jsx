@@ -11,16 +11,8 @@ const categories = [
 ];
 
 const categoryIcons = {
-  Rent: '🏠',
-  Food: '🍽️',
-  Groceries: '🛒',
-  Travel: '✈️',
-  Shopping: '🛍️',
-  Utilities: '💡',
-  Entertainment: '🎮',
-  Health: '💊',
-  Education: '📚',
-  Other: '📦'
+  Rent: '🏠', Food: '🍽️', Groceries: '🛒', Travel: '✈️', Shopping: '🛍️',
+  Utilities: '💡', Entertainment: '🎮', Health: '💊', Education: '📚', Other: '📦'
 };
 
 const FilterTransactions = () => {
@@ -30,7 +22,9 @@ const FilterTransactions = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [selectedCats, setSelectedCats] = useState([...categories]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [modalTx, setModalTx] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,16 +44,13 @@ const FilterTransactions = () => {
 
   const applyFilter = () => {
     const grouped = {};
-    selectedCats.forEach(cat => {
-      grouped[cat] = [];
-    });
     transactions.forEach(tx => {
       if (
         tx.date >= startDate &&
         tx.date <= endDate &&
         selectedCats.includes(tx.category)
       ) {
-        grouped[tx.category].push(tx);
+        (grouped[tx.category] ||= []).push(tx);
       }
     });
     setFiltered(grouped);
@@ -72,17 +63,6 @@ const FilterTransactions = () => {
 
   const getTotal = txs =>
     txs.reduce((sum, t) => sum + t.amount, 0).toFixed(2);
-
-  const deleteTransaction = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5002/transaction/${id}`);
-      setModalTx(null);
-      setTransactions(prev => prev.filter(tx => tx.id !== id));
-      applyFilter();
-    } catch (err) {
-      console.error('Delete failed:', err);
-    }
-  };
 
   return (
     <>
@@ -114,31 +94,49 @@ const FilterTransactions = () => {
           </div>
         </div>
 
-        <div className="results">
-          {Object.keys(filtered).length === 0 ? (
-            <p className="no-data">No transactions to display</p>
-          ) : Object.entries(filtered).map(([cat, txs]) => (
-            <div key={cat} className="category-group">
-              <h3>
-                {categoryIcons[cat]} {cat} — ₹{getTotal(txs)}
-              </h3>
-              {txs.length === 0 ? (
-                <p className="no-data">No transactions in this category</p>
-              ) : (
-                <div className="card-grid">
-                  {txs.map(tx => (
-                    <div className="tx-card" key={tx.id} onClick={() => setModalTx(tx)}>
-                      <div className="tx-amount">₹{tx.amount}</div>
-                      <div className="tx-desc">{tx.description || 'No description'}</div>
-                      <div className="tx-date">{tx.date}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+        <div className="category-grid">
+          {[...selectedCats]
+            .map(cat => ({ cat, txs: filtered[cat] || [] }))
+            .sort((a, b) => getTotal(b.txs) - getTotal(a.txs))
+            .map(({ cat, txs }) => (
+              <div
+                key={cat}
+                className={`category-box ${txs.length === 0 ? 'disabled' : ''}`}
+                onClick={() => txs.length > 0 && setSelectedCategory({ name: cat, txs })}
+              >
+                <div className="cat-icon">{categoryIcons[cat]}</div>
+                <div className="cat-name">{cat}</div>
+                <div className="cat-amount">₹{getTotal(txs)}</div>
+              </div>
+            ))}
         </div>
 
+        {/* Transactions Modal */}
+        {selectedCategory && (
+          <div className="modal-overlay" onClick={() => setSelectedCategory(null)}>
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
+              <h3>
+                {categoryIcons[selectedCategory.name]} {selectedCategory.name}
+              </h3>
+              <div className="card-grid">
+                {selectedCategory.txs.map(tx => (
+                  <div
+                    className="tx-card"
+                    key={tx.id}
+                    onClick={() => setModalTx(tx)}
+                  >
+                    <div className="tx-amount">₹{tx.amount}</div>
+                    <div className="tx-desc">{tx.description || 'No description'}</div>
+                    <div className="tx-date">{tx.date}</div>
+                  </div>
+                ))}
+              </div>
+              <button className="close-btn" onClick={() => setSelectedCategory(null)}>Close</button>
+            </div>
+          </div>
+        )}
+
+        {/* Transaction Modal */}
         {modalTx && (
           <div className="modal-overlay" onClick={() => setModalTx(null)}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -149,7 +147,6 @@ const FilterTransactions = () => {
               <p><strong>Description:</strong> {modalTx.description || 'N/A'}</p>
               <div className="modal-actions">
                 <button onClick={() => navigate('/edit_transaction', { state: { transaction: modalTx } })}>Edit</button>
-                <button onClick={() => deleteTransaction(modalTx.id)}>Delete</button>
                 <button onClick={() => setModalTx(null)}>Close</button>
               </div>
             </div>

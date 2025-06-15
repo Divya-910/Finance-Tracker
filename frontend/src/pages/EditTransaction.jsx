@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './EditTransaction.css';
-
+import Navbar from './Navbar';
 const EditTransaction = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { transaction, categoryName } = location.state || {};
+
   const [form, setForm] = useState({
     amount: '',
     date: '',
@@ -42,6 +43,9 @@ const EditTransaction = () => {
   };
 
   const handleDelete = async () => {
+    const confirm = window.confirm('Are you sure you want to delete this transaction?');
+    if (!confirm) return;
+
     try {
       await axios.delete(`http://localhost:5002/transactions/${transaction.id}`);
       navigate('/user_home', {
@@ -53,12 +57,34 @@ const EditTransaction = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="edit-page">
       <h2>Edit Transaction</h2>
       <form onSubmit={handleSubmit} className="edit-form">
-        <input type="number" name="amount" value={form.amount} onChange={handleChange} required />
-        <input type="date" name="date" value={form.date} onChange={handleChange} required />
-        <select name="category" value={form.category} onChange={handleChange} required>
+        <input
+          type="number"
+          name="amount"
+          value={form.amount}
+          onChange={handleChange}
+          placeholder="Amount (₹)"
+          required
+        />
+
+        <input
+          type="date"
+          name="date"
+          value={form.date}
+          onChange={handleChange}
+          required
+        />
+
+        <select
+          name="category"
+          value={form.category}
+          onChange={handleChange}
+          required
+        >
           <option value="">Select Category</option>
           {[
             'Rent', 'Food', 'Groceries', 'Travel', 'Shopping', 'Utilities',
@@ -67,16 +93,23 @@ const EditTransaction = () => {
             <option key={cat} value={cat}>{cat}</option>
           ))}
         </select>
+
         <textarea
           name="description"
           placeholder="Description (optional)"
           value={form.description}
           onChange={handleChange}
         />
-        <button type="submit">Update</button>
-        <button type="button" onClick={handleDelete} style={{ marginLeft: '10px' }}>Delete</button>
+
+        <button type="submit">
+          ✅ Update
+        </button>
+        <button type="button" onClick={handleDelete}>
+          🗑️ Delete
+        </button>
       </form>
     </div>
+    </>
   );
 };
 

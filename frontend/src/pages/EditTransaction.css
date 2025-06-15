@@ -1,67 +1,82 @@
-.edit-transaction-container {
-  padding: 2rem;
-  max-width: 500px;
+.edit-page {
+  max-width: 480px;
   margin: 60px auto;
-  background-color: #f9fbff;
-  border: 2px solid #c4dbff;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.edit-transaction-container h2 {
+.edit-page h2 {
   text-align: center;
-  margin-bottom: 1.5rem;
-  color: #333;
+  color: #222;
+  font-weight: 600;
+  margin-bottom: 25px;
 }
 
-.edit-transaction-container form {
+.edit-form {
   display: flex;
   flex-direction: column;
+  gap: 16px;
 }
 
-.edit-transaction-container label {
-  font-weight: 600;
-  margin-top: 1rem;
-  margin-bottom: 6px;
-  color: #444;
-}
-
-.edit-transaction-container input,
-.edit-transaction-container select,
-.edit-transaction-container textarea {
-  padding: 10px;
-  border: 1.5px solid #aacbff;
-  border-radius: 8px;
-  font-size: 15px;
-  outline: none;
-  background-color: white;
-}
-
-.edit-transaction-container textarea {
-  resize: vertical;
-  min-height: 60px;
-}
-
-.edit-transaction-container button {
-  margin-top: 1.5rem;
-  padding: 12px;
-  background-color: #3478f6;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
+.edit-form input,
+.edit-form select,
+.edit-form textarea {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
   font-size: 16px;
-  transition: background-color 0.2s;
+  background-color: #fdfdfd;
+  transition: border-color 0.2s ease;
 }
 
-
-
-.edit-transaction-container .delete-btn {
-  background-color: #f24444;
-  margin-top: 0.8rem;
+.edit-form input:focus,
+.edit-form select:focus,
+.edit-form textarea:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
-.edit-transaction-container .delete-btn:hover {
-  background-color: #d63333;
+.edit-form textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.edit-form button {
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.edit-form button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+}
+
+.edit-form button[type="submit"]:hover {
+  background-color: #218838;
+}
+
+.edit-form button[type="button"] {
+  background-color: #dc3545;
+  color: white;
+}
+
+.edit-form button[type="button"]:hover {
+  background-color: #c82333;
+}
+
+/* Optional: Add icon styling */
+.edit-form button i {
+  font-style: normal;
+  font-weight: bold;
 }

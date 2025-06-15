@@ -1,31 +1,52 @@
-// src/components/Navbar.jsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { auth } from '../firebase';
 import './Navbar.css';
 
-const Navbar = ({ user }) => {
+const Navbar = () => {
+  const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Track auth state reliably
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setCurrentUser(user && user.emailVerified ? user : null);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const handleLogout = async () => {
     try {
       await auth.signOut();
-      navigate('/');
+      setCurrentUser(null);
+      navigate('/', { replace: true });
     } catch (err) {
       console.error("Logout failed", err);
     }
   };
 
   const goToAbout = () => {
-    navigate('/about');
+    if (location.pathname !== '/about') {
+      navigate('/about');
+    }
   };
 
   const goToHome = () => {
-    if (user) {
-      navigate('/user_home');
+    if (currentUser) {
+      if (location.pathname !== '/user_home') {
+        navigate('/user_home');
+      }
     } else {
-      navigate('/');
+      if (location.pathname !== '/') {
+        navigate('/');
+      }
+    }
+  };
+
+  const handleLogin = () => {
+    if (location.pathname !== '/login') {
+      navigate('/login');
     }
   };
 
@@ -37,10 +58,10 @@ const Navbar = ({ user }) => {
       <div className="navbar-links">
         <button onClick={goToHome}>Home</button>
         <button onClick={goToAbout}>About</button>
-        {user ? (
+        {currentUser ? (
           <button onClick={handleLogout}>Logout</button>
         ) : (
-          <button onClick={() => navigate('/login')}>Login</button>
+          <button onClick={handleLogin}>Login</button>
         )}
       </div>
     </nav>
