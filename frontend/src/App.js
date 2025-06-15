@@ -20,7 +20,7 @@ function App() {
           <Route path="/add_transaction" element={<AddTransaction />} />
           <Route path="/limits" element={<Limits />} />
          <Route path="/filter_transactions" element={<FilterTransactions />} />
-         <Route path="/about" element={<About />} />
+         <Route path="/about" element={<About/>} />
       </Routes>
     </Router>
   );

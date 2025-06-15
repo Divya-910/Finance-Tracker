@@ -1,8 +1,25 @@
+
 .user-home {
   padding: 2rem;
-  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  background: url('../assets/user_home.jpg') no-repeat center center fixed;
+  background-size: cover;
+  backdrop-filter: blur(5px);
+  color: #fff;
+}
+h2 {
+  font-size: 2.4rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  color : black;
 }
 
+h3 {
+  margin: 2rem 0 1rem;
+  font-size: 1.8rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  color : black
+}
 .buttons {
   margin-bottom: 2rem;
 }
@@ -30,11 +47,13 @@
   transition: transform 0.2s ease;
   cursor: pointer;
   position: relative;
+  color: black;
 }
 
 .category-card:hover {
   transform: scale(1.04);
   background-color: #e7f0ff;
+  color: black;
 }
 
 .category-header {
@@ -47,6 +66,7 @@
 .category-header .icon {
   margin-right: 12px;
   font-size: 28px;
+  color: black;
 }
 
 .category-total {
@@ -104,6 +124,7 @@
   border-radius: 12px;
   width: 320px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  color: black;
 }
 
 .modal h3 {
@@ -135,6 +156,7 @@
   list-style: none;
   padding: 0;
   margin-top: 1rem;
+  color: black;
 }
 
 .modal-transaction-item {
@@ -142,6 +164,7 @@
   border-bottom: 1px solid #ddd;
   cursor: pointer;
   transition: background 0.2s;
+  color: black;
 }
 
 .modal-transaction-item:hover {
